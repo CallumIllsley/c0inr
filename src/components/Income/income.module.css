@@ -1,0 +1,16 @@
+.mainContainer{
+    width: 100vw;
+    height: 100vh;
+    padding-top: 6.5vh !important;
+    background-color: #F6F5F1!important;
+}
+
+.tabContainer{
+    width: 100%;
+    height: 100% !important;    
+    border: 0px !important;
+    background-color: #F6F5F1 !important;
+    display: flex !important;
+    flex-flow: row wrap !important;
+    justify-content: space-around !important;
+}
