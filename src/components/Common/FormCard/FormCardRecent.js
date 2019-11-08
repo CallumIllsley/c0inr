@@ -12,7 +12,7 @@ import { generateTable } from '../../../actions/misc'
 function FormCardRecent({dropTypes, defaultDropType, type}) {
     let currentUDT = Date.now()
     console.log(defaultDropType)
-    const [getValue, setValue] = React.useState({desc: null, amount: null, type: null, dateTime: null})
+    const [getValue, setValue] = React.useState({desc: '', amount: '', type: null, dateTime: null})
     console.log(dropTypes)
     const user  = useFirebaseCurrentUser()
     const uid = user ? user.uid : null
@@ -41,7 +41,7 @@ function FormCardRecent({dropTypes, defaultDropType, type}) {
                         currentUDT = Date.now()
                         updateBalance({balance: parseInt(newBalance)})
                         setIsComplete([false, false, false])
-                        setValue({desc: '', amount: ''})
+                        setValue({desc: '', amount:''})
                         dispatch(generateTable(true))
                     }
                 }}>
@@ -84,12 +84,12 @@ function FormCardRecent({dropTypes, defaultDropType, type}) {
                         />
                     </Form.Field>
                 {
-                    isComplete[1] && isComplete[2] ? <Button content='Submit' color='green' fluid/>
-                                                   : <Button disabled content='Submit' color='green' fluid/>
+                    (getValue.desc != '') && (getValue.amount != '')  ? <Button content='Submit' color='green' fluid/>
+                                                                      : <Button disabled content='Submit' color='green' fluid/>
                 }
                 {
-                    isComplete[1] && isComplete[2] ? <Segment fluid size='tiny' color='green'>Click submit to add income!</Segment>
-                                                   : <Segment fluid size='tiny' color='red'>Finish the form and cick submit</Segment>
+                    (getValue.desc != '') && (getValue.amount != '') ? <Segment fluid size='tiny' color='green'>Click submit to add income!</Segment>
+                                                                     : <Segment fluid size='tiny' color='red'>Finish the form and cick submit</Segment>
                 }
                 </Form>
             </div>
