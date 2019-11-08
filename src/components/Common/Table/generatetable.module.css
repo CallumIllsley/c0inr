@@ -3,6 +3,7 @@
     display: relative;
     background-color: #E1E1E2;
     padding: 1%;
+    margin-bottom: 1%;
     border: 1px solid rgba(108,106,108, 0.15);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.09), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
     border-radius: 1.5%;
@@ -21,6 +22,10 @@
 
 .settingsLabel {
     transform: translateX(-17.5vw) !important;
+}
+
+.settingsLabelO {
+    transform: translateX(-18.5vw) !important;
 }
 
 .settingsLabel:hover {

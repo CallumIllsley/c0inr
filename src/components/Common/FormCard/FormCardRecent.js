@@ -9,42 +9,39 @@ import { useFirebaseDatabaseWriters, useFirebaseDatabaseValue } from 'fireact/di
 import { useDispatch } from 'react-redux'
 import { generateTable } from '../../../actions/misc'
 
-function FormCardRecent({type}) {
+function FormCardRecent({dropTypes, defaultDropType, type}) {
     let currentUDT = Date.now()
-
+    console.log(defaultDropType)
+    const [getValue, setValue] = React.useState({desc: null, amount: null, type: null, dateTime: null})
+    console.log(dropTypes)
     const user  = useFirebaseCurrentUser()
     const uid = user ? user.uid : null
     const dispatch = useDispatch()
     const currentAccount = useFirebaseDatabaseValue(`users/${uid}/settings/currentAccount`)
-    const { update } = useFirebaseDatabaseWriters(`users/${uid}/accounts/${currentAccount}/income`)
+    const { update } = useFirebaseDatabaseWriters(`users/${uid}/accounts/${currentAccount}/${type}`)
     const { update : updateBalance } = useFirebaseDatabaseWriters(`users/${uid}/accounts/${currentAccount}`)
-    const [dropValue, setDropValue] = React.useState()
-    const [incomeInput, setIncomeInput] = React.useState({desc: null, amount: null, type: null, dateTime: null})
+    const [dropValue, setDropValue] = React.useState(defaultDropType)
     const [isComplete, setIsComplete] = React.useState([false, false, false])
     const currentBalance = useFirebaseDatabaseValue(`users/${uid}/accounts/${currentAccount}/balance`)
-    let newBalance = parseInt(currentBalance) + parseInt(incomeInput.amount)
+    let newBalance = 0
 
+    type === 'Income' ? newBalance = parseInt(currentBalance) + parseInt(getValue.amount) 
+                      : newBalance = (currentBalance - getValue.amount)
 
-    const incomeTypes = [
-        {label: 'Income', value: 'Income'},
-        {label: 'Lottery', value: 'Lottery'},
-        {label: 'Transfer', value: 'Transfer'}
-    ]
 
     return (
             <div className={Styles.formWrapper}>
-             <Label color='green' size='medium' className={Styles.tableHead} ribbon='Left'>Add Income</Label>
+             <Label color='green' size='medium' className={Styles.tableHead} ribbon='Left'>Add {type}</Label>
                 <Form className={Styles.formContent} onSubmit={ () => {
                     if(currentAccount == null) {
-                        alert('Add an account before adding any income!')
+                        alert('Add an account first!')
                     } else {
-                        setIncomeInput({desc: incomeInput.desc, amount: incomeInput.amount, type: dropValue, dateTime: currentUDT})
-                        update({[currentUDT] : incomeInput})
+                        setValue({desc: getValue.desc, amount: getValue.amount, type: dropValue, dateTime: currentUDT})
+                        update({[currentUDT] : getValue})
                         currentUDT = Date.now()
-                        updateBalance({balance: newBalance})
+                        updateBalance({balance: parseInt(newBalance)})
                         setIsComplete([false, false, false])
-                        setIncomeInput({desc: '', amount: ''})
-                        setDropValue('')
+                        setValue({desc: '', amount: ''})
                         dispatch(generateTable(true))
                     }
                 }}>
@@ -53,11 +50,11 @@ function FormCardRecent({type}) {
                         <Dropdown 
                             value={dropValue}
                             className={Styles.formField} 
-                            options={incomeTypes} 
+                            options={dropTypes} 
                             placeholder='Select a type!'
                             onChange={(e) => {
                                 setDropValue(e.value)
-                                setIncomeInput({desc: incomeInput.desc, amount: incomeInput.amount, type: dropValue, dateTime: currentUDT})
+                                setValue({desc: getValue.desc, amount: getValue.amount, type: dropValue, dateTime: currentUDT})
                                 setIsComplete([true, isComplete[1], isComplete[2]])
                             }}
                         />
@@ -67,12 +64,10 @@ function FormCardRecent({type}) {
                         <InputText 
                             className={Styles.formField} 
                             keyfilter='alphanum'
-                            value={incomeInput.desc}
+                            value={getValue.desc}
                             onChange={(e) => {
-                                setIncomeInput({desc: e.target.value, amount: incomeInput.amount, type: dropValue, dateTime: currentUDT})
-                                setIsComplete([isComplete[0], true, isComplete[2]])
-    console.log(currentBalance)
-                                
+                                setValue({desc: e.target.value, amount: getValue.amount, type: dropValue, dateTime: currentUDT})
+                                setIsComplete([isComplete[0], true, isComplete[2]])                                
                             }}
                         />
                     </Form.Field>
@@ -81,17 +76,20 @@ function FormCardRecent({type}) {
                         <InputText 
                             className={Styles.formField} 
                             keyfilter='int'
-                            value={incomeInput.amount}
+                            value={getValue.amount}
                             onChange={(e) => { 
-                                setIncomeInput({desc: incomeInput.desc, amount: e.target.value, type: dropValue, dateTime: currentUDT})
+                                setValue({desc: getValue.desc, amount: e.target.value, type: dropValue, dateTime: currentUDT})
                                 setIsComplete([isComplete[0], isComplete[1], true])
                             }}
                         />
                     </Form.Field>
-                <Button content='Submit' color='green' fluid/>
                 {
-                    isComplete[0] && isComplete[1] && isComplete[2] ? <Segment fluid size='tiny' color='green'>Click submit to add income!</Segment>
-                                                                    : <Segment fluid size='tiny' color='red'>Finish the form and cick submit</Segment>
+                    isComplete[1] && isComplete[2] ? <Button content='Submit' color='green' fluid/>
+                                                   : <Button disabled content='Submit' color='green' fluid/>
+                }
+                {
+                    isComplete[1] && isComplete[2] ? <Segment fluid size='tiny' color='green'>Click submit to add income!</Segment>
+                                                   : <Segment fluid size='tiny' color='red'>Finish the form and cick submit</Segment>
                 }
                 </Form>
             </div>

@@ -2,7 +2,6 @@
     height: 100vh;
     width: 100vw;
     background-color: #F6F5F1 !important;
-    overflow: visible !important;
 }
 
 .menu { 
@@ -10,6 +9,7 @@
     width: 100vw;
     height: 7.5vh;
     background-color: #F6F5F1 !important;
+    z-index: 10000 !important;
 }
 
 .contentBody { 
@@ -17,7 +17,6 @@
     width: 100vw;
     height: 100vh;
     background-color: #F6F5F1 !important;
-    overflow: hidden !important;
 }
 
 .sidebarViewer {
@@ -35,3 +34,5 @@
 .account { 
     margin: 1vh !important;
 }
+
+.mainContainer::-webkit-scrollbar { width: 0 !important }

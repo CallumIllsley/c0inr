@@ -24,7 +24,6 @@ function DisplayAccounts() {
                         <Card.Content header={account.name}/>
                         <Card.Content description={account.desc}/>
                         <Card.Content >£{currentBalance}</Card.Content>
-                        {/* {console.log(currentBalance)} */}
                         {currentAccount === account.name ? <CardContent extra>Active Account</CardContent> : null}
                     </Card>
                 )

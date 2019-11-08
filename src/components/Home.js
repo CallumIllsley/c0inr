@@ -1,15 +1,14 @@
 import React from 'react'
 
 import DisplayMenu from './Menu/Menu'
-import { Router, Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import Styles from './home.module.css'
 import { useSelector } from 'react-redux'
-import IncomeContainer from './Income/IncomeContainer'
+import TransactionsContainer from './Income/TransactionsContainer'
 import Overview from '../components/Overview/Overview'
 import Settings from '../components/Settings/Settings'
-import Outgoings from '../components/Outgoings/Outgoings'
 import { Sidebar, Segment, Menu, Card, Header, Button, Input, Icon, Modal, Form } from 'semantic-ui-react'
-import { useFirebaseCurrentUser, useFirebaseDatabaseValue } from 'fireact'
+import { useFirebaseCurrentUser } from 'fireact'
 import DisplayAccounts from './Common/Accounts/DisplayAccounts'
 import { useFirebaseDatabaseWriters } from 'fireact/dist/hooks'
 
@@ -55,7 +54,7 @@ function Home() {
                     </Button>
                 </Form>
             </Modal>
-            <Sidebar.Pushable as={Segment}>
+            <Sidebar.Pushable  as={Segment}>
                 <Sidebar
                     as={Menu}
                     animation='overlay'
@@ -79,17 +78,15 @@ function Home() {
                     }}/>                  
                 <Sidebar.Pusher dimmed={sidebarVisible}>
                     <div className={Styles.menu}>
-                        <DisplayMenu />
+                                <DisplayMenu />
                     </div>
                     <Switch>
-                        <Route path='/income' component={IncomeContainer}/>
-                        <Route path='/outgoings' component={Outgoings}/>
+                        <Route path='/transactions' component={TransactionsContainer}/>
                         <Route path='/settings' component={Settings}/>
                         <Route path='/' component={Overview}/>
                     </Switch>
                 </Sidebar.Pusher>
-            </Sidebar.Pushable>
-            
+            </Sidebar.Pushable> 
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Menu, Button } from 'semantic-ui-react'
+import Styles from './menu.module.css'
 
 import { logoutUser } from '../../actions/'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,7 +13,7 @@ function DisplayMenu() {
     const dispatch = useDispatch()
 
     return (
-        <Menu pointing fluid>
+        <Menu className={Styles.menu} pointing fluid>
             <Link to='/'>
                 <Menu.Item
                     name='Overview'
@@ -20,30 +21,17 @@ function DisplayMenu() {
                     onClick={() => 
                         {
                             setActiveItem('Overview')
-                            dispatch(changePage('Overview'))
                         }}
                 />
             </Link>
-            <Link to='/income'>
+            <Link to='/transactions'>
                 <Menu.Item
-                    name='Income'
-                    active={activeItem === 'Income'}
+                    name='Transactions'
+                    active={activeItem === 'Transactions'}
                     onClick={() => 
                         {
-                            setActiveItem('Income')
-                            dispatch(changePage('Income'))
+                            setActiveItem('Transactions')
                         }} 
-                />
-            </Link>
-            <Link to='/outgoings'>
-                <Menu.Item
-                    name='Outgoings'
-                    active={activeItem === 'Outgoings'}
-                    onClick={() => 
-                        {
-                            setActiveItem('Outgoings')
-                            dispatch(changePage('Outgoings'))
-                        }}
                 />
             </Link>
             <Link to='/settings'>
@@ -53,7 +41,6 @@ function DisplayMenu() {
                     onClick={() => 
                         {
                             setActiveItem('Settings')
-                            dispatch(changePage('Settings'))
                         }}
                 />
             </Link>

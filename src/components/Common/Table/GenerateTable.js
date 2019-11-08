@@ -10,11 +10,11 @@ import { useSelector } from 'react-redux'
 let currentRangeShowing = 'the last 24hrs.'
 
 
-function GenerateTable() {
+function GenerateTable({type}) {
     const user = useFirebaseCurrentUser()
     const uid = user ? user.uid : null
     const currentAccount = useFirebaseDatabaseValue(`users/${uid}/settings/currentAccount`)
-    const incomeDataList =  useFirebaseDatabaseValue(`users/${uid}/accounts/${currentAccount}/income`) || {}
+    const incomeDataList =  useFirebaseDatabaseValue(`users/${uid}/accounts/${currentAccount}/${type}`) || {}
     const incomeData = Object.values(incomeDataList)
     const oneDay = 86400 * 1000
     const threeDay = oneDay * 3
@@ -111,8 +111,11 @@ function GenerateTable() {
             </Modal>
 
             <div className={Styles.tableWrapper}>
-                <Label className={Styles.tableHead} color='green' size='medium' ribbon='left' content={`Showing income from ${currentRangeShowing}`}/>
-                <Label className={Styles.settingsLabel} onClick={() => setViewSettings(true)} content='Settings' color='red' size='medium' icon='setting' ribbon='right'/>
+                <Label className={Styles.tableHead} color='green' size='medium' ribbon='left' content={`Showing ${type} from ${currentRangeShowing}`}/>
+                {
+                    type === 'Income' ? <Label className={Styles.settingsLabel} onClick={() => setViewSettings(true)} content='Settings' color='red' size='medium' icon='setting' ribbon='right'/>
+                                      : <Label className={Styles.settingsLabelO} onClick={() => setViewSettings(true)} content='Settings' color='red' size='medium' icon='setting' ribbon='right'/>
+                }
                 <Table size='small' className={Styles.tableContent}> 
                     <Table.Header>
                         <Table.Row >
