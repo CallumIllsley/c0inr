@@ -1,4 +1,4 @@
-.pieChartWrapper { 
+.chartWrapper { 
     width: 40vw;
     background-color: #E1E1E2;
     padding: 1%;
@@ -10,14 +10,49 @@
     overflow-x: hidden;
 }
 
-.chartHeader { 
-    transform: translateX(-0.5vw);
+.dChartWrapper { 
+    width: 25vw;
+    background-color: #E1E1E2;
+    padding: 1%;
+    margin-bottom: 1%;
+    border: 1px solid rgba(108,106,108, 0.15);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.09), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
+    border-radius: 1.5%;
+    max-height: 22vw !important; 
+
+    overflow-x: hidden;
 }
 
-.pieChartWrapper::-webkit-scrollbar {
+.chartHeader { 
+    transform: translateX(-0.25vw);
+}
+.chartWrapper::-webkit-scrollbar {
     display: none;
 }
 
-.pieChartWrapper:hover { 
+.dChartWrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.dChartHeader {
+    transform: translateX(-0.25vw);
+}
+
+.dChartWrapper:hover { 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.chartWrapper:hover { 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.dHeader { 
+    margin-top: 5% !important;
+}
+
+.gridRow { 
+    text-align: center;
+    background-color: #E1E1E2;
+
 }

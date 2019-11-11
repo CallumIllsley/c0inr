@@ -4,7 +4,7 @@ import { Label } from 'semantic-ui-react'
 import { useFirebaseCurrentUser, useFirebaseDatabaseValue } from 'fireact'
 import {Chart} from 'primereact/chart';
 
-function PieChart({ type }) {
+function PieChart({ chartType, type }) {
     const user = useFirebaseCurrentUser()
     const uid = user ? user.uid : null
     const oneDay = 86400 * 1000
@@ -17,7 +17,6 @@ function PieChart({ type }) {
     const daySetting = useFirebaseDatabaseValue(`users/${uid}/settings/daySetting`)
     let sortedData = []
     let currentRangeShowing = ''
-
 
     switch(daySetting) {
         case '1day':
@@ -66,13 +65,12 @@ function PieChart({ type }) {
                 }
             ]
         }
-
-    return (
-        <div className={Styles.pieChartWrapper}>
-                <Label className={Styles.chartHeader} color='green' size='medium' ribbon='left' content={`Average ${type} from ${currentRangeShowing}`}/>
-                <Chart type='pie' data={data}/>
-        </div>
-    )
-}
+        return ( 
+            <div className={Styles.chartWrapper}>
+                    <Label className={Styles.chartHeader} color='green' size='medium' ribbon='left' content={`Your ${type} from ${currentRangeShowing}`}/> 
+                    <Chart type='pie' data={data}/>
+            </div> 
+        )
+} 
 
 export default PieChart

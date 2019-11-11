@@ -11,18 +11,17 @@ import { generateTable } from '../../../actions/misc'
 
 function FormCardRecent({dropTypes, defaultDropType, type}) {
     let currentUDT = Date.now()
-    console.log(defaultDropType)
     const [getValue, setValue] = React.useState({desc: '', amount: '', type: null, dateTime: null})
-    console.log(dropTypes)
     const user  = useFirebaseCurrentUser()
     const uid = user ? user.uid : null
     const dispatch = useDispatch()
     const currentAccount = useFirebaseDatabaseValue(`users/${uid}/settings/currentAccount`)
-    const { update } = useFirebaseDatabaseWriters(`users/${uid}/accounts/${currentAccount}/${type}`)
+    const currentBalance = useFirebaseDatabaseValue(`users/${uid}/accounts/${currentAccount}/balance`)
     const { update : updateBalance } = useFirebaseDatabaseWriters(`users/${uid}/accounts/${currentAccount}`)
+    const { update } = useFirebaseDatabaseWriters(`users/${uid}/accounts/${currentAccount}/${type}`)
+    const { update : updateTutorial } = useFirebaseDatabaseWriters(`users/${uid}/settings`)
     const [dropValue, setDropValue] = React.useState(defaultDropType)
     const [isComplete, setIsComplete] = React.useState([false, false, false])
-    const currentBalance = useFirebaseDatabaseValue(`users/${uid}/accounts/${currentAccount}/balance`)
     let newBalance = 0
 
     type === 'Income' ? newBalance = parseInt(currentBalance) + parseInt(getValue.amount) 
@@ -43,6 +42,7 @@ function FormCardRecent({dropTypes, defaultDropType, type}) {
                         setIsComplete([false, false, false])
                         setValue({desc: '', amount:''})
                         dispatch(generateTable(true))
+                        updateTutorial({overviewTutorialComplete : true})
                     }
                 }}>
                     <Form.Field >
@@ -63,7 +63,6 @@ function FormCardRecent({dropTypes, defaultDropType, type}) {
                         <label className={Styles.labels}>Description:</label>
                         <InputText 
                             className={Styles.formField} 
-                            keyfilter='alphanum'
                             value={getValue.desc}
                             onChange={(e) => {
                                 setValue({desc: e.target.value, amount: getValue.amount, type: dropValue, dateTime: currentUDT})

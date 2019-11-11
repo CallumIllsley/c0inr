@@ -5,7 +5,6 @@ import Styles from './menu.module.css'
 import { logoutUser } from '../../actions/'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { changePage } from '../../actions/navigation'
 
 function DisplayMenu() {
 

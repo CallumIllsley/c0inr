@@ -36,3 +36,11 @@
 }
 
 .mainContainer::-webkit-scrollbar { width: 0 !important }
+
+.dimmer { 
+    z-index: 100000 !important;
+}
+
+.addLabel { 
+    color: white !important;
+}
