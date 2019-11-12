@@ -32,6 +32,7 @@ function GenerateBudgets() {
     const [dropValue, setDropValue] = React.useState()
     const [visible, setVisible] = React.useState(false)
     const [viewConfirm, setViewConfirm] = React.useState(false)
+    const [budgetDelete, setBudgetDelete] = React.useState()
     let currentAmount = 0
 
     function dataToProgress(type, finalValue) {
@@ -57,16 +58,8 @@ function GenerateBudgets() {
             let date = new Date(entry.date * 1000)
             console.log(date)
             return (
-                <>
-                 <Confirm 
-                open={viewConfirm}
-                onConfirm={() => {
-                    update({[entry.name] : {}})
-                    setViewConfirm(false)
-                }}
-                onCancel={() => setViewConfirm(false)}
-                />
                 <Grid columns={2} rows={2} relaxed='very'>
+                 
                     <Grid.Row>
                         <Grid.Column width={8}>
                             <Header color='green' size='small'>{entry.name}</Header>
@@ -75,7 +68,10 @@ function GenerateBudgets() {
                             <Header color='green' size='tiny'>Resets on {date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()}</Header>
                         </Grid.Column>
                         <Grid.Column width={1}>
-                            <Button className={Styles.rLabel} onClick={() => setViewConfirm(true)} size='mini' icon='close' color='red'/>
+                            <Button className={Styles.rLabel} onClick={() => { 
+                            setViewConfirm(true)
+                            setBudgetDelete(entry.name)
+                            }} size='mini' icon='close' color='red'/>
                         </Grid.Column>
                         <Divider vertical hidden/>
                     </Grid.Row>
@@ -89,7 +85,6 @@ function GenerateBudgets() {
                     </Grid.Row>
                     <Divider section/>
                 </Grid>
-                </>
                 )
             })
         )
@@ -97,6 +92,13 @@ function GenerateBudgets() {
 
     return ( 
         <>
+        <Confirm 
+            open={viewConfirm}
+            onConfirm={() => {
+                update({[budgetDelete] : {}})
+                setViewConfirm(false)
+            }}
+            onCancel={() => setViewConfirm(false)}/>
                 <Modal open={visible}>
                     <Modal.Header>Add a budget</Modal.Header>
                     <Modal.Content>

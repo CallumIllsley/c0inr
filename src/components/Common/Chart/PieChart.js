@@ -59,6 +59,7 @@ function PieChart({ chartType, type }) {
             labels: dataLabels,
             datasets: [
                 {
+                    label: `My ${type}`,
                     data: dataValues,
                     backgroundColor: ["#6C6CE2", "#F4DA70", "#C972C9", "#5C3434", "#FF4365", "#00D9C0","#272838", "#4B5043", "1A281F"],
                     hoverBackgroundColor: ["#6C6CE2", "#F4DA70", "#C972C9", "#5C3434", "#FF4365", "#00D9C0", "#272838", "#4B5043","1A281F"]
@@ -68,7 +69,7 @@ function PieChart({ chartType, type }) {
         return ( 
             <div className={Styles.chartWrapper}>
                     <Label className={Styles.chartHeader} color='green' size='medium' ribbon='left' content={`Your ${type} from ${currentRangeShowing}`}/> 
-                    <Chart type='pie' data={data}/>
+                    <Chart type='bar' data={data}/>
             </div> 
         )
 } 
