@@ -7,7 +7,7 @@ function DisplayBudgets() {
     return ( 
         <div className={Styles.budgetContainer}>
             <Label className={Styles.bLabel} color='green' size='medium' ribbon='left'>Active Budgets</Label>
-            <Segment>
+            <Segment className={Styles.budgets}>
                 <GenerateBudgets/>
             </Segment>
         </div>

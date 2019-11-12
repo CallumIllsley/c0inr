@@ -1,5 +1,5 @@
 .cardContainer { 
-    max-height: 28vh;
+    max-height: 35vh;
     padding: 1%;
     background-color: #E1E1E2;
     border: 1px solid rgba(108,106,108, 0.15);
@@ -7,6 +7,21 @@
     border-radius: 1.5%;
     overflow: hidden;
     margin-bottom: 1%;
+}
+
+.addContainer { 
+    max-height: 8vh;
+    padding: 1%;
+    background-color: #E1E1E2;
+    border: 1px solid rgba(108,106,108, 0.15);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.09), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
+    border-radius: 1.5%;
+    overflow: hidden;
+    margin-bottom: 1%;
+}
+
+.addContainer:hover { 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .cardContainer:hover { 
@@ -19,4 +34,17 @@
 
 .cLabel { 
     transform: translateX(-0.5vw);
+}
+
+.rLabel { 
+    transform: translateX(10.5vw) !important;
+}
+
+.rLabel:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.slider { 
+    padding-bottom: 3% !important;
+    padding-top: 1.5% !important
 }

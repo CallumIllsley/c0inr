@@ -17,3 +17,8 @@
 .mainContainer::-webkit-scrollbar {
     display: none;
 }
+
+.item { 
+    flex-grow: 0;
+    flex-shrink: 0;
+}

@@ -12,7 +12,7 @@ function DashChart( {type} ) {
     const balance = useFirebaseDatabaseValue(`users/${uid}/accounts/${currentAccount}/balance`)
     const accTut = useFirebaseDatabaseValue(`users/${uid}/settings/overviewTutorialComplete`)
     let todayUnix = Date.now()
-    const DataList = useFirebaseDatabaseValue(`users/${uid}/accounts/${currentAccount}/${type}`) || {}
+    const DataList = useFirebaseDatabaseValue(`users/${uid}/accounts/${currentAccount}/Outgoings`) || {}
     const Data = Object.values(DataList) 
     let sortedData = []
 

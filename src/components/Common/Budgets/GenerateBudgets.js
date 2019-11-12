@@ -1,8 +1,9 @@
 import React from 'react'
 import { useFirebaseDatabaseValue, useFirebaseCurrentUser } from 'fireact'
 import { Dropdown } from 'primereact/dropdown'
-import { Modal, Button, Divider, Form, Input, Grid, Progress, Header} from 'semantic-ui-react'
+import { Modal, Button, Divider, Form, Input, Grid, Progress, Header, Confirm} from 'semantic-ui-react'
 import { useFirebaseDatabaseWriters } from 'fireact/dist/hooks'
+import Styles from './budgets.module.css'
 
 const outgoingsTypes = [
     {label: 'Rent', value: 'Rent'},
@@ -17,6 +18,8 @@ const outgoingsTypes = [
 
 function GenerateBudgets() {
     const currentUnix = Date.now() / 1000
+    const currentUDT = new Date()
+    const todayDate = currentUDT.getFullYear() + '-' + (currentUDT.getMonth() + 1) + '-' + currentUDT.getDate()
     const user = useFirebaseCurrentUser()
     const uid = user ? user.uid : null
     const currentAccount = useFirebaseDatabaseValue(`users/${uid}/settings/currentAccount`)
@@ -28,6 +31,7 @@ function GenerateBudgets() {
     const [newBudget, setNewBudget] = React.useState({name: null, amount: null, date: null})
     const [dropValue, setDropValue] = React.useState()
     const [visible, setVisible] = React.useState(false)
+    const [viewConfirm, setViewConfirm] = React.useState(false)
     let currentAmount = 0
 
     function dataToProgress(type, finalValue) {
@@ -53,13 +57,25 @@ function GenerateBudgets() {
             let date = new Date(entry.date * 1000)
             console.log(date)
             return (
+                <>
+                 <Confirm 
+                open={viewConfirm}
+                onConfirm={() => {
+                    update({[entry.name] : {}})
+                    setViewConfirm(false)
+                }}
+                onCancel={() => setViewConfirm(false)}
+                />
                 <Grid columns={2} rows={2} relaxed='very'>
                     <Grid.Row>
                         <Grid.Column width={8}>
                             <Header color='green' size='small'>{entry.name}</Header>
                         </Grid.Column>
-                        <Grid.Column width={8}>
+                        <Grid.Column width={6}>
                             <Header color='green' size='tiny'>Resets on {date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()}</Header>
+                        </Grid.Column>
+                        <Grid.Column width={1}>
+                            <Button className={Styles.rLabel} onClick={() => setViewConfirm(true)} size='mini' icon='close' color='red'/>
                         </Grid.Column>
                         <Divider vertical hidden/>
                     </Grid.Row>
@@ -73,6 +89,7 @@ function GenerateBudgets() {
                     </Grid.Row>
                     <Divider section/>
                 </Grid>
+                </>
                 )
             })
         )
@@ -103,7 +120,7 @@ function GenerateBudgets() {
                             </Form.Field>
                             <Form.Field>
                                 <label>When to reset?</label>
-                                <Input type='date' onChange={(e) => {
+                                <Input type='date' min={todayDate} onChange={(e) => {
                                     let date = new Date(e.target.value).getTime() / 1000
                                     setNewBudget({name: newBudget.name, amount: newBudget.amount, date: date})
                                 }}></Input>
