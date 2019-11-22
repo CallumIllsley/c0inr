@@ -1,14 +1,14 @@
 import React from 'react'
 
 import DisplayMenu from './Menu/Menu'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, useLocation } from 'react-router-dom'
 import Styles from './home.module.css'
 import Dashboard from './Dashboard/Dashboard'
 import TransactionsContainer from './Income/TransactionsContainer'
 import Settings from '../components/Settings/Settings'
 import { Sidebar, Segment, Menu, Card, Header, Button, Input, Icon, Modal, Form, Dimmer } from 'semantic-ui-react'
 import { useFirebaseCurrentUser } from 'fireact'
-import { useEffect } from 'react'
+import { useTransition, animated } from 'react-spring'
 import DisplayAccounts from './Common/Accounts/DisplayAccounts'
 import { useFirebaseDatabaseWriters, useFirebaseDatabaseValue } from 'fireact/dist/hooks'
 
@@ -24,8 +24,14 @@ function Home() {
     const [viewAccountAdder, setViewAccountAdder] = React.useState(false)
     const [accountDetails, setAccountDetails] = React.useState({name: null, desc: null, balance: 0})
     const [complete, setComplete] = React.useState([false, false]) 
+    const location = useLocation()
+    const transitions = useTransition(location, location => location.pathname, {
+    from: { background: '#F6F5F1', opacity: 0, transform: 'translate3d(-100%,0,0)'},
+    enter: { background: '#F6F5F1', opacity: 1, transform: 'translate3d(0%,0,0)' },
+    leave: { background: '#F6F5F1', opacity: 0, transform: 'translate3d(-50%,0,0)' },
+  })
 
-    return (   
+    return transitions.map(({ item: location, props, key }) => (   
         <div className={Styles.mainContainer}>
 
             <Modal
@@ -99,15 +105,17 @@ function Home() {
                         <div className={Styles.menu}>
                                     <DisplayMenu />
                         </div>
-                        <Switch>
-                            <Route path='/transactions' component={TransactionsContainer}/>
+                        <animated.div key={key} style={props}>
+                        <Switch location={location}>
                             <Route path='/settings' component={Settings}/>
+                            <Route path='/transactions' component={TransactionsContainer}/>
                             <Route path='/' component={Dashboard}/>
                         </Switch>
+                        </animated.div>
                     </Sidebar.Pusher>
             </Sidebar.Pushable> 
         </div>
-    )
+    ) ) 
 }
 
 export default Home

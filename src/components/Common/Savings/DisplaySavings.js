@@ -4,6 +4,8 @@ import SavingsCard from './SavingsCard'
 import { useFirebaseCurrentUser, useFirebaseDatabaseValue } from 'fireact'
 import { Button, Modal, Form, Input } from 'semantic-ui-react'
 import { useFirebaseDatabaseWriters } from 'fireact/dist/hooks'
+import { useSpring, animated } from 'react-spring'
+
 
 function DisplaySavings() {
     const currentUDT = new Date()
@@ -16,6 +18,8 @@ function DisplaySavings() {
     const savings = Object.values(savingsList)
     const [visible, setVisible] = React.useState(false)
     const [savingsValue, setSavingsValue] = React.useState({name: null, amount: null, date: null, progress: null})
+    const animProps3 = useSpring({opacity: 1, transform: 'translateX(0)',delay: 600, from: {opacity: 0, transform: 'translateX(100vw)'}})
+
 
     return (
         <> 
@@ -56,9 +60,9 @@ function DisplaySavings() {
                                         progress={entry.progress}/>
                 })
             }
-            <div className={Styles.addContainer}>
+            <animated.div style={animProps3} className={Styles.addContainer}>
                 <Button onClick={() => setVisible(true)} fluid color='green'>Add Savings Goal</Button>
-            </div>
+            </animated.div>
         </>
     )
 }

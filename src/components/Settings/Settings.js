@@ -1,10 +1,13 @@
 import React from 'react'
+import Styles from './settings.module.css'
 
 function Settings() {
     return ( 
-        <h1>
-            SETTINGS HERE
-        </h1>
+       <div className={Styles.mainContainer}>
+           <div className={Styles.content}>
+            
+           </div>
+       </div>
     )
 }
 

@@ -1,9 +1,10 @@
-.mainContainer{
+.mainContainer {
     width: 100vw;
     height: 100vh;
     padding-top: 6.5vh !important;
     background-color: #F6F5F1!important;
     overflow: scroll;
+    background-color: #F6F5F1 !important;
 }
 
 .content { 
@@ -11,15 +12,4 @@
     padding-top: 1%;
     flex-flow: row wrap !important;
     justify-content: space-around !important;
-    background-color: #F6F5F1!important;
-
-}
-
-.mainContainer::-webkit-scrollbar {
-    display: none;
-}
-
-.item { 
-    flex-grow: 0;
-    flex-shrink: 0;
 }

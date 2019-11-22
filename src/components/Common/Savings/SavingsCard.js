@@ -4,6 +4,7 @@ import { Card, Button, Input, Progress, Label, Confirm } from 'semantic-ui-react
 import { Slider } from 'react-semantic-ui-range'
 import { useFirebaseCurrentUser, useFirebaseDatabaseValue} from 'fireact'
 import { useFirebaseDatabaseWriters } from 'fireact/dist/hooks'
+import { useSpring, animated } from 'react-spring'
 
 function SavingsCard({name, amount, progress, date}) {
     const user = useFirebaseCurrentUser()
@@ -14,6 +15,7 @@ function SavingsCard({name, amount, progress, date}) {
     const currentBalance = useFirebaseDatabaseValue(`users/${uid}/accounts/${currentAccount}/balance`)
     const { update : updateBalance } = useFirebaseDatabaseWriters(`users/${uid}/accounts/${currentAccount}`)
     const [viewConfirm, setViewConfirm] = React.useState(false)
+    const animProps3 = useSpring({opacity: 1, transform: 'translateX(0)',delay: 600, from: {opacity: 0, transform: 'translateX(-100vw)'}})
 
     let newBalance = 0
     
@@ -35,7 +37,7 @@ function SavingsCard({name, amount, progress, date}) {
 
 
     return ( 
-        <div className={Styles.cardContainer}>
+        <animated.div style={animProps3} className={Styles.cardContainer}>
             <Confirm 
                 open={viewConfirm}
                 onConfirm={() => {
@@ -82,7 +84,7 @@ function SavingsCard({name, amount, progress, date}) {
                     </Button>
                 </Card.Content>
             </Card>
-        </div>
+        </animated.div>
     )
 }
 

@@ -5,13 +5,15 @@ import { Table, Label, Modal, Checkbox, Form, Icon, Button } from 'semantic-ui-r
 import { useFirebaseCurrentUser, useFirebaseDatabaseValue } from 'fireact'
 import { useFirebaseDatabaseWriters } from 'fireact/dist/hooks'
 import { useSelector } from 'react-redux'
-
+import { useSpring, animated } from 'react-spring'
 
 let currentRangeShowing = 'the last 24hrs.'
 
 
 function GenerateTable({type}) {
     const user = useFirebaseCurrentUser()
+    const animProps1 = useSpring({opacity: 1, transform: 'translateY(0)',delay : 200, from: { opacity: 0, transform: 'translateY(-100vh)'}})
+    const animProps2 = useSpring({opacity: 1, transform: 'translateY(0)',delay : 300, from: { opacity: 0, transform: 'translateY(100vh)'}})
     const uid = user ? user.uid : null
     const currentAccount = useFirebaseDatabaseValue(`users/${uid}/settings/currentAccount`)
     const incomeDataList =  useFirebaseDatabaseValue(`users/${uid}/accounts/${currentAccount}/${type}`) || {}
@@ -110,7 +112,7 @@ function GenerateTable({type}) {
                 </Modal.Actions>
             </Modal>
 
-            <div className={Styles.tableWrapper}>
+            <animated.div style={type === 'Income' ? animProps1 : animProps2} className={Styles.tableWrapper}>
                 <Label className={Styles.tableHead} color='green' size='medium' ribbon='left' content={`Showing ${type} from ${currentRangeShowing}`}/>
                 {
                     type === 'Income' ? <Label className={Styles.settingsLabel} onClick={() => setViewSettings(true)} content='Settings' color='red' size='medium' icon='setting' ribbon='right'/>
@@ -128,7 +130,7 @@ function GenerateTable({type}) {
                         generate ? GenerateTableRow() : null
                     }
                 </Table>
-            </div>
+            </animated.div>
         </>
     )
 }

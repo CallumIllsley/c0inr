@@ -3,8 +3,11 @@ import Styles from './chart.module.css'
 import { Label } from 'semantic-ui-react'
 import { useFirebaseCurrentUser, useFirebaseDatabaseValue } from 'fireact'
 import {Chart} from 'primereact/chart';
+import { useSpring, animated } from 'react-spring'
 
-function PieChart({ chartType, type }) {
+
+function PieChart({ type }) {
+    const animProps1 = useSpring({opacity: 1, transform: 'translateX(0)',delay: 100, from: { opacity: 0, transform: 'translateX(100vw)'}})
     const user = useFirebaseCurrentUser()
     const uid = user ? user.uid : null
     const oneDay = 86400 * 1000
@@ -67,10 +70,10 @@ function PieChart({ chartType, type }) {
             ]
         }
         return ( 
-            <div className={Styles.chartWrapper}>
+            <animated.div style={animProps1} className={Styles.chartWrapper}>
                     <Label className={Styles.chartHeader} color='green' size='medium' ribbon='left' content={`Your ${type} from ${currentRangeShowing}`}/> 
                     <Chart type='bar' data={data}/>
-            </div> 
+            </animated.div> 
         )
 } 
 

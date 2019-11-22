@@ -8,6 +8,8 @@ import { useFirebaseCurrentUser } from 'fireact'
 import { useFirebaseDatabaseWriters, useFirebaseDatabaseValue } from 'fireact/dist/hooks'
 import { useDispatch } from 'react-redux'
 import { generateTable } from '../../../actions/misc'
+import { useSpring, animated } from 'react-spring'
+
 
 function FormCardRecent({dropTypes, defaultDropType, type}) {
     let currentUDT = Date.now()
@@ -22,6 +24,8 @@ function FormCardRecent({dropTypes, defaultDropType, type}) {
     const { update : updateTutorial } = useFirebaseDatabaseWriters(`users/${uid}/settings`)
     const [dropValue, setDropValue] = React.useState(defaultDropType)
     const [isComplete, setIsComplete] = React.useState([false, false, false])
+    const animProps1 = useSpring({opacity: 1, transform: 'translateX(0)',delay : 100, from: { opacity: 0, transform: 'translateX(-100vw)'}})
+    const animProps2 = useSpring({opacity: 1, transform: 'translateX(0)',delay : 200, from: { opacity: 0, transform: 'translateX(-100vw)'}})
     let newBalance = 0
 
     type === 'Income' ? newBalance = parseInt(currentBalance) + parseInt(getValue.amount) 
@@ -29,7 +33,7 @@ function FormCardRecent({dropTypes, defaultDropType, type}) {
 
 
     return (
-            <div className={Styles.formWrapper}>
+            <animated.div style={type === 'Income' ? animProps2  : animProps1} className={Styles.formWrapper}>
              <Label color='green' size='medium' className={Styles.tableHead} ribbon='Left'>Add {type}</Label>
                 <Form className={Styles.formContent} onSubmit={ () => {
                     if(currentAccount == null) {
@@ -91,7 +95,7 @@ function FormCardRecent({dropTypes, defaultDropType, type}) {
                                                                      : <Segment fluid size='tiny' color='red'>Finish the form and cick submit</Segment>
                 }
                 </Form>
-            </div>
+            </animated.div>
     )
 }
 

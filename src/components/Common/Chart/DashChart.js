@@ -3,6 +3,8 @@ import Styles from './chart.module.css'
 import { Label, Header, Segment, Grid, Divider, Dimmer, Icon } from 'semantic-ui-react'
 import { useFirebaseCurrentUser, useFirebaseDatabaseValue } from 'fireact'
 import {Chart} from 'primereact/chart';
+import { useSpring, animated } from 'react-spring'
+
 
 function DashChart( {type} ) {
     const user = useFirebaseCurrentUser()
@@ -15,6 +17,8 @@ function DashChart( {type} ) {
     const DataList = useFirebaseDatabaseValue(`users/${uid}/accounts/${currentAccount}/Outgoings`) || {}
     const Data = Object.values(DataList) 
     let sortedData = []
+    const animProps1 = useSpring({opacity: 1, transform: 'translateY(0)',delay : 600, from: { opacity: 0, transform: 'translateY(100vh)'}})
+
 
     sortedData = Data.filter((entry) => entry.dateTime > todayUnix - oneDay)
   
@@ -54,7 +58,7 @@ function DashChart( {type} ) {
             ]
         }
         return ( 
-            <div className={Styles.dChartWrapper}>
+            <animated.div style={animProps1} className={Styles.dChartWrapper}>
                 <Dimmer active={!accTut}>
                     <Header as='h2' icon inverted>
                         <Icon size='massive' name='info circle'/>
@@ -77,7 +81,7 @@ function DashChart( {type} ) {
                         <Divider hidden vertical/>
                     </Segment>
                     <Chart type='doughnut' data={data}/>
-            </div> 
+            </animated.div> 
         )
 }
 

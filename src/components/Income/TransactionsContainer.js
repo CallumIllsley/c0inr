@@ -33,7 +33,7 @@ const panels = [
                     <PieChart className={Styles.flexItem} type='Income'/>
                     <FormCardRecent className={Styles.flexItem} type='Outgoings' defaultDropType={'Rent'} dropTypes={outgoingsTypes}/>
                     <GenerateTable className={Styles.flexItem} type='Outgoings'/>
-                    <PieChart chartType='doughnut' className={Styles.flexItem} type='Outgoings'/>
+                    <PieChart className={Styles.flexItem} type='Outgoings'/>
             </Tab.Pane> 
     },
     { 
